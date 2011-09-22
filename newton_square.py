@@ -3,6 +3,8 @@
 Created on Wed Sep 21 15:20:41 2011
 
 @author: antoanne
+
+http://en.wikipedia.org/wiki/Newton%27s_method
 """
 import random, numpy
 
