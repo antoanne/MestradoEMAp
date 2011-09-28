@@ -22,41 +22,43 @@ def getImpar(n):
 
 # Entradas
 L = 2
-e = 0.001
+e = 0.01
 
-passouLimite = False
-isPositivo = True
-qtdTermosPositivos = 0
-qtdTermosNegativos = 0
-arrayPos = []
-arrayNeg = []
-plotSoma = []
 n = 0
 soma = 0
-while (max((soma - L), (L - soma)) > e):
+plotSoma = []
+arrayPos = []
+arrayNeg = []
+ponteiroPos = 0
+ponteiroNeg = 0
+qtdTermosPositivos = 0
+qtdTermosNegativos = 0
+isPositivo = True
+while (True):
     n += 1
-    if(isPositivo):
-        qtdTermosPositivos += 1   
+    if (isPositivo):
+        qtdTermosPositivos += 1
         soma += getTermo(getImpar(qtdTermosPositivos))
+        ponteiroPos = soma
     else:
         qtdTermosNegativos += 1
         soma += getTermo(getPar(qtdTermosNegativos))
+        ponteiroNeg = soma
     plotSoma.append(soma)
     if (soma > L):
         if(isPositivo):
             arrayPos.append(qtdTermosPositivos)
-        else:
-            qtdTermosPositivos = 0
         isPositivo = False
     else:
         if(not isPositivo):
             arrayNeg.append(qtdTermosNegativos)
-        else:
-            qtdTermosNegativos = 0
         isPositivo = True
+    if (((ponteiroPos > L) and (ponteiroPos < L+e)) and ((ponteiroNeg < L) and (ponteiroNeg > L-e))):
+        break
 
-plot(plotSoma)
-title("Harmônica Alternada \nL=%f e=%f".decode('utf-8') %(L,e))
-xlabel("Termos somados: %d\nPOS: %s\nNEG: %s" % (n, arrayPos, arrayNeg))
+print arrayPos, arrayNeg
+title("Harmônica Alternada \nL=%.10f e=%.10f".decode('utf-8') %(L,e))
+xlabel("Total de termos somados: %d\nPOS: %s || NEG: %s" % (n, qtdTermosPositivos, qtdTermosNegativos))
 axhspan(L+e, L-e, facecolor='g', alpha=0.5)
+plot(plotSoma)
 show()
